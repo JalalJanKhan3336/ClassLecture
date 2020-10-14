@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".HomeFragment">
+
+    <TextView
+        android:id="@+id/say_hello_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="@dimen/_22ssp"
+        android:textColor="@android:color/black"/>
+
+    <Button
+        android:id="@+id/input_name_alert_dialog_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="@string/open_dialog_to_say_hello"/>
+
+    <Button
+        android:id="@+id/simple_alert_dialog_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="@string/open_alert_dialog"/>
+
+    <Button
+        android:id="@+id/two_btns_alert_dialog_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/open_two_btns_alert_dialog"/>
+
+    <Button
+        android:id="@+id/three_btns_alert_dialog_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/open_three_btns_alert_dialog"/>
+
+</LinearLayout>

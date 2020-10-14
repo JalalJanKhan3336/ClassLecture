@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/edit"
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_cross"
+        android:iconTint="@android:color/holo_red_light"/>
+
+    <item android:title="@string/deactivate"
+        android:id="@+id/action_deactivate"
+        android:icon="@drawable/ic_gallery"
+        android:iconTint="@android:color/holo_red_light"/>
+
+    <item android:title="@string/delete"
+        android:id="@+id/action_delete"
+        android:icon="@drawable/ic_search"
+        android:iconTint="@android:color/holo_red_light"/>
+
+    <item android:title="@string/mark_as_sold"
+        android:id="@+id/action_mark_as_sold"
+        android:icon="@drawable/ic_camera"
+        android:iconTint="@android:color/holo_red_light"/>
+
+</menu>

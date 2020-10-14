@@ -1,12 +1,24 @@
 package com.thesoftparrot.classlecture;
 
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.os.Bundle;
-import android.util.Log;
-
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.thesoftparrot.classlecture.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
@@ -17,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private ActivityMainBinding mBinding;
 
-    private ContactListAdapter mAdapter;
+    private HomeFragment homeFragment;
+    private ChatFragment chatFragment;
+    private MyAccountFragment myAccountFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,72 +39,111 @@ public class MainActivity extends AppCompatActivity {
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        generateList();
-
-        Log.d(TAG, "onCreate_Called: ");
+        setSupportActionBar(mBinding.mytoolbar);
+        
+        initRef();
+        addHomeFragment();
+        click();
+        initDrawer();
     }
 
-    private void generateList() {
-        List<Contact> list = new ArrayList<>();
+    private void initDrawer() {
 
-        for (int i = 0; i < 20; i++) {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this,
+                mBinding.drawerLayout,
+                mBinding.mytoolbar,
+                R.string.open_drawer,
+                R.string.close_drawer);
 
-            int image = R.drawable.ic_launcher_background;
-            String name = "Name No. "+i;
-            String phone = "Phone No. "+i;
+        toggle.setDrawerSlideAnimationEnabled(true);
+        mBinding.drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
 
-            Contact contact = new Contact(image, name, phone);
-            list.add(contact);
+    private void initRef() {
+        homeFragment = new HomeFragment();
+        chatFragment = new ChatFragment();
+        myAccountFragment = new MyAccountFragment();
+    }
+
+    private void click() {
+
+        mBinding.sideNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                boolean isItemClicked = false;
+
+                int id = item.getItemId();
+
+                switch (id){
+
+                    case R.id.action_home:{
+                        isItemClicked = true;
+                        replaceFragment(homeFragment);
+                        closeDrawer();
+                        break;
+                    }
+                    case R.id.action_chat:{
+                        isItemClicked = true;
+                        replaceFragment(chatFragment);
+                        closeDrawer();
+                        break;
+                    }
+                    case R.id.action_my_account:{
+                        isItemClicked = true;
+                        replaceFragment(myAccountFragment);
+                        closeDrawer();
+                        break;
+                    }
+                    default:
+                        break;
+                }
+
+                return isItemClicked;
+            }
+        });
+
+        mBinding.bottomNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                boolean isItemClicked = false;
+
+                if(item.getItemId() == R.id.action_home){
+                    replaceFragment(homeFragment);
+                    isItemClicked = true;
+                }else if(item.getItemId() == R.id.action_chat){
+                    replaceFragment(chatFragment);
+                    isItemClicked = true;
+                }else if(item.getItemId() == R.id.action_my_account){
+                    replaceFragment(myAccountFragment);
+                    isItemClicked = true;
+                }
+
+                return isItemClicked;
+            }
+        });
+    }
+
+    private void closeDrawer() {
+        if(mBinding.drawerLayout.isDrawerOpen(GravityCompat.START)){
+            mBinding.drawerLayout.closeDrawer(GravityCompat.START);
         }
-
-        setupRecyclerView(list);
     }
 
-    private void setupRecyclerView(List<Contact> list) {
+    private void replaceFragment(Fragment fragment) {
 
-        if(mAdapter == null)
-            mAdapter = new ContactListAdapter(this,list);
-
-        GridLayoutManager layout = new GridLayoutManager(this, 2);
-        layout.setSmoothScrollbarEnabled(true);
-        mBinding.contactRecyclerView.setLayoutManager(layout);
-        mBinding.contactRecyclerView.setHasFixedSize(false);
-        mBinding.contactRecyclerView.setAdapter(mAdapter);
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, fragment, fragment.getTag());
+        ft.commit();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart_Called: ");
+    private void addHomeFragment(){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.fragment_container, homeFragment, homeFragment.getTag());
+        ft.commit();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume_Called: ");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause_Called: ");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(TAG, "onRestart_Called: ");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop_Called: ");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy_Called: ");
-    }
 }
