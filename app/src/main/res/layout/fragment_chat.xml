@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@android:color/darker_gray"
-    tools:context=".ChatFragment">
+    tools:context=".test.ChatFragment">
 
     <Button
         android:id="@+id/show_bottom_sheet_dialog_btn"

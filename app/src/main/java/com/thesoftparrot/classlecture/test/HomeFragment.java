@@ -1,4 +1,4 @@
-package com.thesoftparrot.classlecture;
+package com.thesoftparrot.classlecture.test;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.thesoftparrot.classlecture.R;
 import com.thesoftparrot.classlecture.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {

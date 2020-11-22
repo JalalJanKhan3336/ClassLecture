@@ -1,4 +1,4 @@
-package com.thesoftparrot.classlecture;
+package com.thesoftparrot.classlecture.test;
 
 import android.os.Bundle;
 
@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.thesoftparrot.classlecture.databinding.FragmentChatBinding;
 
-public class ChatFragment extends Fragment implements UsernameListener {
+public class ChatFragment extends Fragment {
 
     private FragmentChatBinding mBinding;
 
@@ -43,13 +43,14 @@ public class ChatFragment extends Fragment implements UsernameListener {
                 bottomSheetDialogFragment.setCancelable(false);
                 bottomSheetDialogFragment.show(getChildFragmentManager(),bottomSheetDialogFragment.getTag());
 
-                bottomSheetDialogFragment.setUsernameListener(ChatFragment.this);
+                bottomSheetDialogFragment.setUsernameListener(new UsernameListener() {
+                    @Override
+                    public void onUsernameEntered(String username) {
+                        Toast.makeText(requireContext(), "Welcome "+username, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
 
-    @Override
-    public void onUsernameEntered(String username) {
-        Toast.makeText(requireContext(), "Welcome "+username, Toast.LENGTH_SHORT).show();
-    }
 }

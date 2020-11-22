@@ -1,16 +1,14 @@
-package com.thesoftparrot.classlecture;
+package com.thesoftparrot.classlecture.test;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.thesoftparrot.classlecture.databinding.FragmentUserListBottomSheetDialogBinding;
@@ -25,9 +23,7 @@ public class UserListBottomSheetDialogFragment extends BottomSheetDialogFragment
         this.mUsernameListener = mUsernameListener;
     }
 
-    public UserListBottomSheetDialogFragment() {
-        // Required empty public constructor
-    }
+    public UserListBottomSheetDialogFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,16 +42,15 @@ public class UserListBottomSheetDialogFragment extends BottomSheetDialogFragment
         mBinding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String value = mBinding.nameEt.getText().toString().trim();
+                String name = mBinding.nameEt.getText().toString().trim();
 
-                if(TextUtils.isEmpty(value)){
+                if(TextUtils.isEmpty(name)){
                     mBinding.nameEt.setError("Name is required!");
                     return;
                 }
 
                 dismiss();
-                mUsernameListener.onUsernameEntered(value);
-
+                mUsernameListener.onUsernameEntered(name);
             }
         });
     }

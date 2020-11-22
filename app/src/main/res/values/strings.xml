@@ -33,4 +33,13 @@
     <string name="show_bottom_sheet_dialog">Show Bottom Sheet Dialog Fragment</string>
     <string name="sample_msg">This is bottom sheet dialog fragment</string>
     <string name="submit">Submit</string>
+    <string name="upload">Upload</string>
+    <string name="browse_images">Browse Images</string>
+    <string name="download">Download</string>
+    <string name="start_counter">Start Counter</string>
+    <string name="stop_counter">Stop Counter</string>
+    <string name="title">Title</string>
+    <string name="detail">Detail</string>
+    <string name="add">Add</string>
+    <string name="get_all">Get All</string>
 </resources>
