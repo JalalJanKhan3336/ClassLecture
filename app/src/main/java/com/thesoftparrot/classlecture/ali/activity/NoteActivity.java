@@ -10,6 +10,7 @@ import android.view.View;
 import com.google.android.material.snackbar.Snackbar;
 import com.thesoftparrot.classlecture.R;
 import com.thesoftparrot.classlecture.ali.adapter.NoteListAdapter;
+import com.thesoftparrot.classlecture.ali.notification.MyNotificationManager;
 import com.thesoftparrot.classlecture.ali.room.dao.NoteDao;
 import com.thesoftparrot.classlecture.ali.room.database.LocalStorage;
 import com.thesoftparrot.classlecture.ali.room.entity.Note;
@@ -58,6 +59,8 @@ public class NoteActivity extends AppCompatActivity {
                 noteDao.addNewNote(note);
 
                 Snackbar.make(mBinding.getRoot(), title+" note added", Snackbar.LENGTH_LONG).show();
+
+                sendNotificationDataToServer(title, detail);
             }
         });
 
@@ -73,6 +76,12 @@ public class NoteActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    // Shows notification
+    private void sendNotificationDataToServer(String title, String detail) {
+        MyNotificationManager myNotificationManager = new MyNotificationManager(this);
+        myNotificationManager.sendNotification(title, detail);
     }
 
     // Will bind list to recyclerview

@@ -10,6 +10,13 @@ import androidx.room.PrimaryKey;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * Tables' Relation
+ *   - One to One Relation (Laptop & Processor relation is One to One)
+ *   - One to Many Relation
+ *   - Many to Many Relation
+ * */
+
 @Entity(tableName = "notes")
 public class Note {
 
