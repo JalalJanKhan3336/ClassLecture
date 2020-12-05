@@ -1,5 +1,7 @@
 package com.thesoftparrot.classlecture.ali.notification;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -8,6 +10,8 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.Map;
 
 public class MyMessagingService extends FirebaseMessagingService {
+    private static final String TAG = "MyMessagingService";
+
     public MyMessagingService() {}
 
     @Override
@@ -28,6 +32,9 @@ public class MyMessagingService extends FirebaseMessagingService {
 
         String title = data.get("title");
         String message = data.get("message");
+
+        Log.d(TAG, "_onMessageReceived_Title: "+title);
+        Log.d(TAG, "_onMessageReceived_Message: "+message);
 
         // TODO: Pass title & message in Notification
         MyNotificationManager myNotificationManager = new MyNotificationManager(this);

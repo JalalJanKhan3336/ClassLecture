@@ -16,12 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service
-            android:name=".ali.notification.MyMessagingService"
-            android:enabled="false"
-            android:exported="true"/>
 
-        <activity android:name=".ali.activity.NoteActivity">
+        <activity android:name=".ali.activity.NoteActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ali.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +35,16 @@
         <activity android:name=".shaharyar.AuthActivity" />
         <activity android:name=".test.SplashScreenActivity" />
         <activity android:name=".test.MainActivity" />
-        <activity android:name=".test.CounterActivity"></activity>
+        <activity android:name=".test.CounterActivity" />
+
+        <service android:name=".ali.notification.MyMessagingService"
+            android:exported="false"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
