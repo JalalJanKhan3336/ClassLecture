@@ -101,10 +101,7 @@ public class LoginActivity extends AppCompatActivity {
             String uid = firebaseUser.getUid();
             Log.d("TAG", "subscribeTopic_Uid: "+uid);
 
-            FirebaseMessaging.getInstance().subscribeToTopic("/topics/" + "Friends");
-
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
+            FirebaseMessaging.getInstance().subscribeToTopic("/topics/" + uid);
         }
     }
 
