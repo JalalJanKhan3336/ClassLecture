@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.d("TAG", "subscribeTopic_Uid: "+uid);
 
             fcm.subscribeToTopic("/topics/"+uid);
+            fcm.subscribeToTopic("/topics/adventure/2dgame");
         }
     }
 

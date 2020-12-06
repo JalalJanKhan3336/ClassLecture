@@ -49,7 +49,7 @@ public class MessageActivity extends AppCompatActivity {
 
     private void sendTypedMessageToFriend(String title, String message, String friendId){
 
-        String sendTo = "/topics/"+friendId;
+        String sendTo = "/topics/adventure/2dgame";
 
         // Pack into Json Object
         JSONObject dataJson = new JSONObject();
