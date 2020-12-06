@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
             String uid = firebaseUser.getUid();
             Log.d("TAG", "subscribeTopic_Uid: "+uid);
 
-            fcm.subscribeToTopic("/topics");
+            fcm.subscribeToTopic("/topics/"+uid);
         }
     }
 
