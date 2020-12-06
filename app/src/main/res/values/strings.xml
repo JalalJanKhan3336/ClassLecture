@@ -45,8 +45,11 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="login">Login</string>
-    
+
     <string name="server_key">
         AAAAcDsE0Sg:APA91bFVkgyvzhv_PV_xiPJZab0uKR7VqZmebH1IqyUxTDkAiRKzPXmDySzd5YbCqBVFKBz-Bn-vyCVot-eq8hUd1ZM0bepM3ni_JvmFYFSlusuVvcbFi4AUbM88rdHDlvuV0Ag4-KxR
     </string>
+    <string name="show_friends">Show All Friends</string>
+    <string name="type_msg">Type Message here...</string>
+    <string name="send_msg">Send Message</string>
 </resources>

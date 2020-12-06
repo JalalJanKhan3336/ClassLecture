@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.thesoftparrot.classlecture.R;
 import com.thesoftparrot.classlecture.ali.adapter.NoteListAdapter;
+import com.thesoftparrot.classlecture.ali.dialog.FriendListBottomSheetDialogFragment;
 import com.thesoftparrot.classlecture.ali.notification.MyNotificationManager;
 import com.thesoftparrot.classlecture.ali.room.dao.NoteDao;
 import com.thesoftparrot.classlecture.ali.room.database.LocalStorage;
@@ -41,14 +42,8 @@ public class NoteActivity extends AppCompatActivity {
         mBinding = ActivityNoteBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        subscribeNotification();
-
         initRef();
         click();
-    }
-
-    private void subscribeNotification() {
-
     }
 
     private void initRef() {
@@ -56,6 +51,15 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void click() {
+
+        mBinding.showFriendsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FriendListBottomSheetDialogFragment dialog = new FriendListBottomSheetDialogFragment();
+                dialog.show(getSupportFragmentManager(), dialog.getTag());
+            }
+        });
+
         mBinding.addNoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,8 +80,6 @@ public class NoteActivity extends AppCompatActivity {
                 noteDao.addNewNote(note);
 
                 Snackbar.make(mBinding.getRoot(), title+" note added", Snackbar.LENGTH_LONG).show();
-
-                packNotificationInJsonForm(title, detail);
             }
         });
 
@@ -95,59 +97,6 @@ public class NoteActivity extends AppCompatActivity {
 
     }
 
-    private void packNotificationInJsonForm(String title, String detail){
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String sendTo = "/topics/"+userId;
-
-        // Pack into Json Object
-        JSONObject dataJson = new JSONObject();
-        JSONObject outerJson = new JSONObject();
-
-        try {
-            dataJson.put("title", title);
-            dataJson.put("message", detail);
-
-            outerJson.put("to", sendTo);
-            outerJson.put("data", dataJson);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        sendNotificationDataToServer(outerJson);
-    }
-
-    // Shows notification
-    private void sendNotificationDataToServer(JSONObject notification) {
-
-        String contentType = "application/json";
-        String url = "https://fcm.googleapis.com/fcm/send";
-        String serverKey = "key="+getResources().getString(R.string.server_key);
-
-        Map<String, String> map = new HashMap<>();
-        map.put("Authorization", serverKey);
-        map.put("Content-Type", contentType);
-
-        AndroidNetworking.initialize(this);
-        AndroidNetworking
-                .post(url)
-                .setPriority(Priority.IMMEDIATE)
-                .addHeaders(map)
-                .addJSONObjectBody(notification)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("TAG", "_onResponse_Json: "+response);
-                    }
-
-                    @Override
-                    public void onError(ANError anError) {
-                        Log.e("TAG", "_onError_Failed: "+anError.getErrorBody());
-                    }
-                });
-    }
-
     // Will bind list to recyclerview
     private void bindList(List<Note> list) {
         NoteListAdapter adapter = new NoteListAdapter(this, list);
@@ -156,4 +105,5 @@ public class NoteActivity extends AppCompatActivity {
         mBinding.recyclerView.setLayoutManager(layout);
         mBinding.recyclerView.setAdapter(adapter);
     }
+
 }

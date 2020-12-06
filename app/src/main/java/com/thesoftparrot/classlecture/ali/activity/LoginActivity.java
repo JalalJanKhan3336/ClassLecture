@@ -16,7 +16,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.thesoftparrot.classlecture.ali.model.Friend;
 import com.thesoftparrot.classlecture.databinding.ActivityLoginBinding;
 import com.thesoftparrot.classlecture.shaharyar.AuthActivity;
 import com.thesoftparrot.classlecture.test.MainActivity;
@@ -66,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void authUser(String email, String password) {
+    private void authUser(final String email, String password) {
         FirebaseAuth
                 .getInstance()
                 .signInWithEmailAndPassword(email, password)
@@ -74,10 +77,14 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         Snackbar.make(mBinding.getRoot(), "Login successful!", Snackbar.LENGTH_LONG).show();
+                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                        FirebaseUser currentUser = auth.getCurrentUser();
+                        if(currentUser != null){
+                            String userId = currentUser.getUid();
 
-                        Intent intent = new Intent(LoginActivity.this, NoteActivity.class);
-                        startActivity(intent);
-                        finish();
+                            Friend friend = new Friend(25, userId, email, null);
+                            addToFriendList(userId, friend);
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -95,14 +102,38 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void subscribeTopic() {
+        FirebaseMessaging fcm = FirebaseMessaging.getInstance();
+
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (firebaseUser != null) {
             String uid = firebaseUser.getUid();
             Log.d("TAG", "subscribeTopic_Uid: "+uid);
 
-            FirebaseMessaging.getInstance().subscribeToTopic("/topics/" + uid);
+            fcm.subscribeToTopic("/topics");
         }
+    }
+
+    private void addToFriendList(String userId, Friend friendInfo){
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef
+                .child("Friends")
+                .child(userId)
+                .setValue(friendInfo)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(LoginActivity.this, "Added to Friends", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginActivity.this, NoteActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Snackbar.make(mBinding.getRoot(), "Something went wrong...", Snackbar.LENGTH_LONG).show();
+                    }
+                });
     }
 
 }

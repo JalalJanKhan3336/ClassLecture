@@ -14,7 +14,7 @@ import com.thesoftparrot.classlecture.R;
 
 public class MyNotificationManager {
 
-    private Context context;
+    private final Context context;
     private static final String channelId = "channel_id_1";
     private static final String channelName = "channel_name";
 
@@ -43,9 +43,8 @@ public class MyNotificationManager {
         builder.setSmallIcon(R.drawable.ic_launcher_background);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        // Send
+        // Show Notification to Device
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
-        managerCompat.notify(3336, builder.build());
+        managerCompat.notify(100, builder.build());
     }
-
 }
